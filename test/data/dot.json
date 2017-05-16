@@ -1,0 +1,86 @@
+[
+ {
+  "type": "digraph",
+  "children": [
+   {
+    "type": "edge_stmt",
+    "edge_list": [
+     {
+      "type": "node_id",
+      "id": "a"
+     },
+     {
+      "type": "node_id",
+      "id": "b"
+     },
+     {
+      "type": "node_id",
+      "id": "c"
+     },
+     {
+      "type": "node_id",
+      "id": "a0"
+     }
+    ],
+    "attr_list": []
+   },
+   {
+    "type": "edge_stmt",
+    "edge_list": [
+     {
+      "type": "node_id",
+      "id": "b"
+     },
+     {
+      "type": "node_id",
+      "id": "d"
+     }
+    ],
+    "attr_list": []
+   },
+   {
+    "type": "edge_stmt",
+    "edge_list": [
+     {
+      "type": "node_id",
+      "id": "c"
+     },
+     {
+      "type": "node_id",
+      "id": "d"
+     }
+    ],
+    "attr_list": []
+   },
+   {
+    "type": "edge_stmt",
+    "edge_list": [
+     {
+      "type": "node_id",
+      "id": "a"
+     },
+     {
+      "type": "node_id",
+      "id": "e"
+     }
+    ],
+    "attr_list": []
+   },
+   {
+    "type": "edge_stmt",
+    "edge_list": [
+     {
+      "type": "node_id",
+      "id": "a"
+     },
+     {
+      "type": "node_id",
+      "id": "c"
+     }
+    ],
+    "attr_list": []
+   }
+  ],
+  "id": "flow"
+ }
+]

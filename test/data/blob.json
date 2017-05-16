@@ -1,0 +1,451 @@
+{
+  "ast": [
+    {
+      "depth": 1,
+      "text": "Workflow",
+      "type": "heading"
+    },
+    {
+      "depth": 1,
+      "text": "Sync (pipe)",
+      "type": "heading"
+    },
+    {
+      "text": "gtihub.com/a7medkamel/helloworld.js |",
+      "type": "paragraph"
+    },
+    {
+      "depth": 1,
+      "text": "Sync (pipe) with map",
+      "type": "heading"
+    },
+    {
+      "depth": 1,
+      "text": "Async - Workflow",
+      "type": "heading"
+    },
+    {
+      "depth": 1,
+      "text": "Thoughts",
+      "type": "heading"
+    },
+    {
+      "text": "The Markdown document describes the flow as well as the scripts to run.",
+      "type": "paragraph"
+    },
+    {
+      "text": "Each flow execution is assigned an Id.",
+      "type": "paragraph"
+    },
+    {
+      "text": "Each script can be executed multiple times within the same flow, if it is pointed to by multiple other edges.",
+      "type": "paragraph"
+    },
+    {
+      "text": "Execution resuts are stored as `${flow_id}/${from}/${to}` and rendered / shown as part of a specific execution.",
+      "type": "paragraph"
+    },
+    {
+      "text": "Each Execution is based off of an instance of a markdown file (sha)",
+      "type": "paragraph"
+    },
+    {
+      "lang": "dot",
+      "text": "digraph flow {\n  a -> b -> c -> a0\n  b -> d\n  c -> d\n  a -> e\n  a -> c\n}",
+      "type": "code"
+    },
+    {
+      "text": "subgraph cluster_0 {\n  a0 -> a1 -> a2 -> a3;\n}",
+      "type": "paragraph"
+    },
+    {
+      "lang": "javascript",
+      "text": "/*\n  @pragma flow a\n*/\nmodule.exports = (req, res) => res.send(req.body + 'a');",
+      "type": "code"
+    },
+    {
+      "lang": "js",
+      "text": "/*\n  @pragma flow b\n*/\nmodule.exports = (req, res) => res.send(req.body + 'b');",
+      "type": "code"
+    },
+    {
+      "text": "# pragma flow c\ncurl https://gtihub.run/a7medkamel/taskmill-help/blob/master/c.js",
+      "type": "code"
+    },
+    {
+      "type": "blockquote_start"
+    },
+    {
+      "text": "in this example, we run a bash script, bash comment used for manual",
+      "type": "paragraph"
+    },
+    {
+      "type": "blockquote_end"
+    },
+    {
+      "text": "/*\n  @pragma flow d\n*/\nmodule.exports = (req, res) => res.send(req.body + 'd');",
+      "type": "code"
+    },
+    {
+      "text": "/*\n  @pragma flow e\n*/\nmodule.exports = (req, res) => res.send(req.body + 'e');",
+      "type": "code"
+    },
+    {
+      "depth": 1,
+      "text": "Seperated Flow",
+      "type": "heading"
+    },
+    {
+      "text": "Can a flow be seperated in multiple segments?",
+      "type": "paragraph"
+    },
+    {
+      "depth": 2,
+      "text": "Some Text explaining this part of the flow",
+      "type": "heading"
+    },
+    {
+      "lang": "flow",
+      "text": "a -> b -> c",
+      "type": "code"
+    },
+    {
+      "depth": 2,
+      "text": "Explain another 2 segments",
+      "type": "heading"
+    },
+    {
+      "lang": "flow",
+      "text": "b -> d\nc -> d",
+      "type": "code"
+    },
+    {
+      "depth": 2,
+      "text": "Explain another segment",
+      "type": "heading"
+    },
+    {
+      "lang": "flow",
+      "text": "a -> e",
+      "type": "code"
+    },
+    {
+      "depth": 1,
+      "text": "Conditonals would require pattern matching",
+      "type": "heading"
+    },
+    {
+      "lang": "flow",
+      "text": "a -> b -> c\nb -> c | d | e | $\nc -> d\na -> e",
+      "type": "code"
+    },
+    {
+      "depth": 2,
+      "text": "OR...",
+      "type": "heading"
+    },
+    {
+      "lang": "flow",
+      "text": "a -> b -> c\nb -> m\nc -> d\na -> e\nm -> c [condition=\"c_a\"]\nm -> d [match=\"if(req.body == 'foo')\"]\nm -> e [match=\"if(req.body == 'foo')\"]",
+      "type": "code"
+    },
+    {
+      "text": "/*\n  @pragma flow m\n*/\nmodule.exports = (req, res) => {\n  return {\n    []\n  };\n};",
+      "type": "code"
+    },
+    {
+      "depth": 1,
+      "text": "WaitFor",
+      "type": "heading"
+    },
+    {
+      "text": "What happens when we want to wait for 3 items to be done and pass their output to a 4th?",
+      "type": "paragraph"
+    },
+    {
+      "text": "This graph looks like `wait_for` will be called 3 times",
+      "type": "paragraph"
+    },
+    {
+      "lang": "dot",
+      "text": "digraph flow {\n  a -> b -> wait_for_a_b_c [type=\"wait_all\"]\n  a -> c -> wait_for_a_b_c [type=\"wait_all\"]\n  a -> d -> wait_for_a_b_c [type=\"wait_all\"]\n  wait_for_a_b_c -> e\n}",
+      "type": "code"
+    },
+    {
+      "text": "We can have custom typed nodes. ex: `wait_all` or `compose`, or `mix`",
+      "type": "paragraph"
+    }
+  ],
+  "block": [
+    {
+      "dot": [
+        {
+          "children": [
+            {
+              "attr_list": [],
+              "edge_list": [
+                {
+                  "id": "a",
+                  "type": "node_id"
+                },
+                {
+                  "id": "b",
+                  "type": "node_id"
+                },
+                {
+                  "id": "c",
+                  "type": "node_id"
+                },
+                {
+                  "id": "a0",
+                  "type": "node_id"
+                }
+              ],
+              "type": "edge_stmt"
+            },
+            {
+              "attr_list": [],
+              "edge_list": [
+                {
+                  "id": "b",
+                  "type": "node_id"
+                },
+                {
+                  "id": "d",
+                  "type": "node_id"
+                }
+              ],
+              "type": "edge_stmt"
+            },
+            {
+              "attr_list": [],
+              "edge_list": [
+                {
+                  "id": "c",
+                  "type": "node_id"
+                },
+                {
+                  "id": "d",
+                  "type": "node_id"
+                }
+              ],
+              "type": "edge_stmt"
+            },
+            {
+              "attr_list": [],
+              "edge_list": [
+                {
+                  "id": "a",
+                  "type": "node_id"
+                },
+                {
+                  "id": "e",
+                  "type": "node_id"
+                }
+              ],
+              "type": "edge_stmt"
+            },
+            {
+              "attr_list": [],
+              "edge_list": [
+                {
+                  "id": "a",
+                  "type": "node_id"
+                },
+                {
+                  "id": "c",
+                  "type": "node_id"
+                }
+              ],
+              "type": "edge_stmt"
+            }
+          ],
+          "id": "flow",
+          "type": "digraph"
+        }
+      ],
+      "text": "digraph flow {\n  a -> b -> c -> a0\n  b -> d\n  c -> d\n  a -> e\n  a -> c\n}",
+      "type": "dot"
+    },
+    {
+      "manual": {
+        "pragma": [
+          "flow a"
+        ]
+      },
+      "text": "/*\n  @pragma flow a\n*/\nmodule.exports = (req, res) => res.send(req.body + 'a');",
+      "type": "js"
+    },
+    {
+      "manual": {
+        "pragma": [
+          "flow b"
+        ]
+      },
+      "text": "/*\n  @pragma flow b\n*/\nmodule.exports = (req, res) => res.send(req.body + 'b');",
+      "type": "js"
+    },
+    {
+      "text": "# pragma flow c\ncurl https://gtihub.run/a7medkamel/taskmill-help/blob/master/c.js",
+      "type": "js"
+    },
+    {
+      "manual": {
+        "pragma": [
+          "flow d"
+        ]
+      },
+      "text": "/*\n  @pragma flow d\n*/\nmodule.exports = (req, res) => res.send(req.body + 'd');",
+      "type": "js"
+    },
+    {
+      "manual": {
+        "pragma": [
+          "flow e"
+        ]
+      },
+      "text": "/*\n  @pragma flow e\n*/\nmodule.exports = (req, res) => res.send(req.body + 'e');",
+      "type": "js"
+    },
+    {
+      "text": "a -> b -> c",
+      "type": "js"
+    },
+    {
+      "text": "b -> d\nc -> d",
+      "type": "js"
+    },
+    {
+      "text": "a -> e",
+      "type": "js"
+    },
+    {
+      "text": "a -> b -> c\nb -> c | d | e | $\nc -> d\na -> e",
+      "type": "js"
+    },
+    {
+      "text": "a -> b -> c\nb -> m\nc -> d\na -> e\nm -> c [condition=\"c_a\"]\nm -> d [match=\"if(req.body == 'foo')\"]\nm -> e [match=\"if(req.body == 'foo')\"]",
+      "type": "js"
+    },
+    {
+      "text": "/*\n  @pragma flow m\n*/\nmodule.exports = (req, res) => {\n  return {\n    []\n  };\n};",
+      "type": "js"
+    },
+    {
+      "dot": [
+        {
+          "children": [
+            {
+              "attr_list": [
+                {
+                  "eq": "wait_all",
+                  "id": "type",
+                  "type": "attr"
+                }
+              ],
+              "edge_list": [
+                {
+                  "id": "a",
+                  "type": "node_id"
+                },
+                {
+                  "id": "b",
+                  "type": "node_id"
+                },
+                {
+                  "id": "wait_for_a_b_c",
+                  "type": "node_id"
+                }
+              ],
+              "type": "edge_stmt"
+            },
+            {
+              "attr_list": [
+                {
+                  "eq": "wait_all",
+                  "id": "type",
+                  "type": "attr"
+                }
+              ],
+              "edge_list": [
+                {
+                  "id": "a",
+                  "type": "node_id"
+                },
+                {
+                  "id": "c",
+                  "type": "node_id"
+                },
+                {
+                  "id": "wait_for_a_b_c",
+                  "type": "node_id"
+                }
+              ],
+              "type": "edge_stmt"
+            },
+            {
+              "attr_list": [
+                {
+                  "eq": "wait_all",
+                  "id": "type",
+                  "type": "attr"
+                }
+              ],
+              "edge_list": [
+                {
+                  "id": "a",
+                  "type": "node_id"
+                },
+                {
+                  "id": "d",
+                  "type": "node_id"
+                },
+                {
+                  "id": "wait_for_a_b_c",
+                  "type": "node_id"
+                }
+              ],
+              "type": "edge_stmt"
+            },
+            {
+              "attr_list": [],
+              "edge_list": [
+                {
+                  "id": "wait_for_a_b_c",
+                  "type": "node_id"
+                },
+                {
+                  "id": "e",
+                  "type": "node_id"
+                }
+              ],
+              "type": "edge_stmt"
+            }
+          ],
+          "id": "flow",
+          "type": "digraph"
+        }
+      ],
+      "text": "digraph flow {\n  a -> b -> wait_for_a_b_c [type=\"wait_all\"]\n  a -> c -> wait_for_a_b_c [type=\"wait_all\"]\n  a -> d -> wait_for_a_b_c [type=\"wait_all\"]\n  wait_for_a_b_c -> e\n}",
+      "type": "dot"
+    }
+  ],
+  "branch": "master",
+  "content": "# Workflow\n\n# Sync (pipe)\n\ngtihub.com/a7medkamel/helloworld.js |\n\n# Sync (pipe) with map\n\n# Async - Workflow\n\n# Thoughts\n\nThe Markdown document describes the flow as well as the scripts to run.\n\nEach flow execution is assigned an Id.\n\nEach script can be executed multiple times within the same flow, if it is pointed to by multiple other edges.\n\nExecution resuts are stored as `${flow_id}/${from}/${to}` and rendered / shown as part of a specific execution.\n\nEach Execution is based off of an instance of a markdown file (sha)\n\n```dot\ndigraph flow {\n  a -> b -> c -> a0\n  b -> d\n  c -> d\n  a -> e\n  a -> c\n}\n```\nsubgraph cluster_0 {\n  a0 -> a1 -> a2 -> a3;\n}\n\n```javascript\n/*\n  @pragma flow a\n*/\nmodule.exports = (req, res) => res.send(req.body + 'a');\n```\n\n```js\n/*\n  @pragma flow b\n*/\nmodule.exports = (req, res) => res.send(req.body + 'b');\n```\n\n```\n# pragma flow c\ncurl https://gtihub.run/a7medkamel/taskmill-help/blob/master/c.js\n```\n> in this example, we run a bash script, bash comment used for manual\n\n```\n/*\n  @pragma flow d\n*/\nmodule.exports = (req, res) => res.send(req.body + 'd');\n```\n\n```\n/*\n  @pragma flow e\n*/\nmodule.exports = (req, res) => res.send(req.body + 'e');\n```\n\n# Seperated Flow\nCan a flow be seperated in multiple segments?\n\n\n## Some Text explaining this part of the flow\n\n```flow\na -> b -> c\n```\n\n## Explain another 2 segments\n\n```flow\nb -> d\nc -> d\n```\n\n## Explain another segment\n\n```flow\na -> e\n```\n\n# Conditonals would require pattern matching\n```flow\na -> b -> c\nb -> c | d | e | $\nc -> d\na -> e\n```\n\n## OR...\n```flow\na -> b -> c\nb -> m\nc -> d\na -> e\nm -> c [condition=\"c_a\"]\nm -> d [match=\"if(req.body == 'foo')\"]\nm -> e [match=\"if(req.body == 'foo')\"]\n```\n\n```\n/*\n  @pragma flow m\n*/\nmodule.exports = (req, res) => {\n  return {\n    []\n  };\n};\n```\n\n# WaitFor\n\nWhat happens when we want to wait for 3 items to be done and pass their output to a 4th?\n\nThis graph looks like `wait_for` will be called 3 times\n```dot\ndigraph flow {\n  a -> b -> wait_for_a_b_c [type=\"wait_all\"]\n  a -> c -> wait_for_a_b_c [type=\"wait_all\"]\n  a -> d -> wait_for_a_b_c [type=\"wait_all\"]\n  wait_for_a_b_c -> e\n}\n```\n\nWe can have custom typed nodes. ex: `wait_all` or `compose`, or `mix`\n",
+  "markdown": {
+    "options": {
+      "gfm": true
+    }
+  },
+  "path": "/artifact/workflow.md",
+  "repository": {
+    "remote": "https://github.com/a7medkamel/taskmill.git"
+  },
+  "stat": {
+    "isBinary": false,
+    "rawsize": 2197,
+    "sha": "80ccaeb17132bde1f6f97fbaf26feb37b3213f8f"
+  },
+  "uid": "https://github.com/a7medkamel/taskmill.git+/artifact/workflow.md",
+  "updatedAt": 1493365104000
+}

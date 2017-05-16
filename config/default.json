@@ -1,0 +1,8 @@
+{
+  "flow" : {
+    "port" : 8030
+  },
+  "codedb": {
+    "url": "http://localhost:8585"
+  }
+}
