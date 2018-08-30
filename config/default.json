@@ -4,5 +4,8 @@
   },
   "codedb": {
     "url": "http://localhost:8585"
+  },
+  "account"             : {
+    "url"               : "http://account.breadboard.io"
   }
 }

@@ -32,6 +32,7 @@
     "response-time": "^2.3.2",
     "taskmill-core-codedb-sdk": "git+https://github.com/a7medkamel/taskmill-core-codedb-sdk.git",
     "taskmill-core-git": "git+https://github.com/a7medkamel/taskmill-core-git.git",
+    "taskmill-core-account-sdk": "git+https://github.com/a7medkamel/taskmill-core-account-sdk.git",
     "winston": "^2.3.1"
   },
   "devDependencies": {
